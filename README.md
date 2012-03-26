@@ -2,12 +2,12 @@
 
 A small and simple satellite tracking application.
 This application has been created as a tutorial to demonstrate how spring 3, jpa and vaadin can be combined to quickly 
-develop web-applications.
+develop web-applications. The project is derived from SpringApplication in the vaadin incubator.
 
 ## Data
 
-Currently, only a subset of available satellite data has been extracted from http://www.space-track.org.
-When the application is started, the latest TLE data is retrieved from http://www.celestrak.com.
+Currently, only a subset of available satellite data has been extracted from [space-track.org](http://www.space-track.org).
+When the application is started, the latest TLE data is retrieved from [celestrak.com](http://www.celestrak.com).
 
 ## Usage
 
@@ -16,11 +16,20 @@ When the application is started, the latest TLE data is retrieved from http://ww
     
     firefox http://localhost:8080/sat-tracker
 
+## Hacks
+
+In order to get the application working in eclipse with the GWT development mode, some hacks had to be added:
+
+* src/main/webapp/WEB-INF/jetty-web.xml: promote slf4j to system classes
+* src/main/resources/META-INF/spring.handlers + spring.schemas: copy these files from spring-tx.jar
+* lib: added custom packaged orekit-6.0-SNAPSHOT-tn.jar with some bugfixes
+
 ## Links
 
 * [Vaadin](http://www.vaadin.org)
 * [Spring](http://www.springsource.org)
 * [Orekit](http://www.orekit.org)
+* [Vaadin Spring Integration](http://dev.vaadin.com/browser/incubator/SpringApplication)
 
 ## License
 
