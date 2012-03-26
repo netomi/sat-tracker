@@ -1,0 +1,8 @@
+                                    SATELLITE TRACKER
+                                  Development Changelog
+
+Version 0.1.0 - 26.03.2012
+--------------------------
+
+   - initial version
+   - support for visibilities and real-time tracking

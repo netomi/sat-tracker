@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans    http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/tx       http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+		http://www.springframework.org/schema/aop      http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+
+	<context:property-placeholder location="classpath*:*.properties" />
+
+	<!-- Turn on AspectJ @Configurable support -->
+	<context:spring-configured />
+	<context:annotation-config />
+
+	<context:component-scan base-package="org.netomi.tracker" />
+
+	<!-- Turn on @Autowired, @PostConstruct etc support -->
+	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
+	<bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor" />
+
+	<bean class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+		id="dataSource">
+		<property name="driverClassName" value="${database.driverClassName}" />
+		<property name="url" value="${database.url}" />
+		<property name="username" value="${database.username}" />
+		<property name="password" value="${database.password}" />
+	</bean>
+
+	<bean class="org.springframework.orm.jpa.JpaTransactionManager"
+		id="transactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+
+	<tx:annotation-driven mode="aspectj" transaction-manager="transactionManager" />
+
+	<bean
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+		id="entityManagerFactory">
+		<property name="dataSource" ref="dataSource" />
+		<property name="jpaVendorAdapter">
+			<bean id="jpaAdapter"
+				class="org.springframework.orm.jpa.vendor.OpenJpaVendorAdapter">
+				<property name="generateDdl" value="true" />
+				<property name="showSql" value="true" />
+			</bean>
+		</property>
+
+		<property name="jpaPropertyMap">
+			<map>
+				<entry key="openjpa.Sequence" value="table(Table=OPENJPASEQ, Increment=1)" />
+				<entry key="openjpa.jdbc.SynchronizeMappings" value="buildSchema(ForeignKeys=true)" />
+
+				<entry key="openjpa.AutoDetach" value="nontx-read" />
+
+				<entry key="openjpa.Optimistic" value="true" />
+				<entry key="openjpa.Multithreaded" value="true" />
+				<entry key="openjpa.TransactionMode" value="local" />
+				<entry key="openjpa.NontransactionalRead" value="true" />
+
+				<entry key="openjpa.Log" value="DefaultLevel=WARN, Tool=INFO, Runtime=WARN" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource"
+		p:basename="trackerMessages" />
+
+	<bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.SessionLocaleResolver"
+		p:defaultLocale="en_US" />
+
+	<bean class="org.netomi.tracker.util.VaadinApplicationObjectSupport" />
+
+	<bean class="org.netomi.tracker.Initializer" />
+
+</beans>
