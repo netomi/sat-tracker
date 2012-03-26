@@ -41,10 +41,6 @@
 		<servlet-name>SatTracker</servlet-name>
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>SatTracker</servlet-name>
-		<url-pattern>/VAADIN/*</url-pattern>
-	</servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>

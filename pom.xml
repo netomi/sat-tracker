@@ -34,7 +34,9 @@
 				<version>6.1.26</version>
 				<configuration>
 					<contextPath>${project.artifactId}</contextPath>
-					<scanIntervalSeconds>-1</scanIntervalSeconds>
+					<classesDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/classes</classesDirectory>
+					<scanIntervalSeconds>0</scanIntervalSeconds>
+					<webAppSourceDirectory>${project.build.directory}/${project.build.finalName}</webAppSourceDirectory>
 				</configuration>
 			</plugin>
 			<plugin>
